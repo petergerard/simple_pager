@@ -10,10 +10,10 @@ module SimplePager
   module ActiveRecord
     # makes a Relation look like WillPaginate::Collection
     module Pager
-      scope :pager, lambda { |pp| 
+      def pager(pp)
         limit(pp[:per_page] || (self.respond_to?(:per_page) ? self.per_page : 30)).
         offset(pp[:page].blank? ? 0 : ((pp[:page].to_i-1)*(pp[:per_page] || (self.respond_to?(:per_page) ? self.per_page : 30)))) 
-      }
+      end
     end
     
     # mix everything into Active Record
