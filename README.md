@@ -27,7 +27,7 @@ gem 'simple_pager', :git => 'git://github.com/accidental/simple_pager.git'
 <%= simple_pager @posts %>
 ```
 
-And that's it! You're done. You just need to add some CSS styles to [make those pagination links prettier][bootstrap].
+Remember to add some [CSS styles][bootstrap].
 
 You can customize the default "per_page" value:
 
@@ -36,7 +36,6 @@ You can customize the default "per_page" value:
 class Post
   self.per_page = 10
 end
-
 ```
 
 
