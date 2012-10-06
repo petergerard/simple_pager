@@ -24,13 +24,17 @@ module SimplePagerHelper
     per_page ||= 30
     pprev = ''
     pnext = ''
+    prefix = ''
     if params[:page] and params[:page].to_i > 1
+      if collection.empty?
+        prefix = content_tag(:p,"There are no more.")
+      end
       pprev = content_tag(:li, link_to( "&larr; #{prev_name}".html_safe, request.query_parameters.merge({:page => (params[:page].to_i - 1)}) ),:class => 'previous')
     end
     if !@no_more_pages and collection.size >= per_page
       pnext = content_tag(:li, link_to( "#{next_name} &rarr;".html_safe, request.query_parameters.merge({:page => (params[:page] ? params[:page].to_i + 1 : 2)}) ),:class => 'next')
     end
-    content_tag(:ul, (pprev+pnext).html_safe, :class => 'pager')
+    p(refix + content_tag(:ul, (pprev+pnext).html_safe, :class => 'pager')).html_safe
   end
 end
 
