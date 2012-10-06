@@ -34,7 +34,7 @@ module SimplePagerHelper
     if !@no_more_pages and collection.size >= per_page
       pnext = content_tag(:li, link_to( "#{next_name} &rarr;".html_safe, request.query_parameters.merge({:page => (params[:page] ? params[:page].to_i + 1 : 2)}) ),:class => 'next')
     end
-    p(refix + content_tag(:ul, (pprev+pnext).html_safe, :class => 'pager')).html_safe
+    (prefix + content_tag(:ul, (pprev+pnext).html_safe, :class => 'pager')).html_safe
   end
 end
 
