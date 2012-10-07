@@ -13,7 +13,7 @@ Uses markup compatible with [Bootstrap's pager class][bootstrap].
 
 ``` ruby
 ## add to Gemfile in Rails 3 app
-gem 'simple_pager', :git => 'git://github.com/accidental/simple_pager.git'
+gem 'simple_pager'
 ```
 
 
