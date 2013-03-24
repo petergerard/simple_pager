@@ -29,7 +29,8 @@ module SimplePagerHelper
       if collection.empty?
         prefix = content_tag(:p,"There are no more.")
       end
-      pprev = content_tag(:li, link_to( "&larr; #{prev_name}".html_safe, request.query_parameters.merge({:page => (params[:page].to_i - 1)}) ),:class => 'previous')
+      prevnum = (params[:page].to_i - 1)
+      pprev = content_tag(:li, link_to( "&larr; #{prev_name}".html_safe, request.query_parameters.merge({:page => (prevnum == 1 ? nil : prevnum)}) ),:class => 'previous')
     end
     if !@no_more_pages and collection.size >= per_page
       pnext = content_tag(:li, link_to( "#{next_name} &rarr;".html_safe, request.query_parameters.merge({:page => (params[:page] ? params[:page].to_i + 1 : 2)}) ),:class => 'next')
