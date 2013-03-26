@@ -23,6 +23,9 @@ gem 'simple_pager'
 ## perform a paginated query:
 @posts = Post.pager(:page => params[:page])
 
+## specify a different number of items per page:
+@posts = Post.pager(:page => params[:page], :per_page => 15)
+
 ## render page links in the view:
 <%= simple_pager @posts %>
 ```
@@ -32,7 +35,7 @@ Remember to add some [CSS styles][bootstrap].
 You can customize the default "per_page" value:
 
 ``` ruby
-# for the Post model
+# set a default per_page value for the Post model:
 class Post
   self.per_page = 10
 end
