@@ -12,7 +12,7 @@ Uses markup compatible with [Bootstrap's pager class][bootstrap].
 ## Installation:
 
 ``` ruby
-## add to Gemfile in Rails 3 app
+# add to Gemfile in Rails 3 app
 gem 'simple_pager'
 ```
 
@@ -20,14 +20,17 @@ gem 'simple_pager'
 ## Basic simple\_pager use
 
 ``` ruby
-## perform a paginated query:
+# perform a paginated query:
 @posts = Post.pager(:page => params[:page])
 
-## specify a different number of items per page:
+# specify a different number of items per page:
 @posts = Post.pager(:page => params[:page], :per_page => 15)
 
-## render page links in the view:
+# render page links in the view:
 <%= simple_pager @posts %>
+
+# customise the page link names:
+<%= simple_pager @posts,nil,'Newer','Older' %>
 ```
 
 Remember to add some [CSS styles][bootstrap].
