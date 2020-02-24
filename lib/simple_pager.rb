@@ -1,9 +1,9 @@
 require 'simple_pager/per_page'
 require 'active_record'
 module SimplePager
-  def self.included(base)
-    base.extend(ActiveRecord)
-  end
+  #def self.included(base)
+  #  base.extend(ActiveRecord)
+  #end
   # = Simple Paginating for ActiveRecord models
   # 
   # Adds pager scope to all ActiveRecord models. Works similar to will_paginate but does not count the collection.

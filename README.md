@@ -12,7 +12,7 @@ Uses markup compatible with [Bootstrap's pager class][bootstrap].
 ## Installation:
 
 ``` ruby
-# add to Gemfile in Rails 3 app
+# add to Gemfile in Rails app
 gem 'simple_pager'
 ```
 
@@ -42,7 +42,7 @@ You can also pass a custom `:per_page` into `.pager`, but you also need to pass 
 # controller - specify a different number of items per page:
 @posts = Post.pager(:page => params[:page], :per_page => 15)
 
-# view - specify the same per\_page value
+# view - specify the same per_page value
 <%= simple_pager @posts, 15 %>
 ```
 
