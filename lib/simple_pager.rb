@@ -1,7 +1,8 @@
+require 'simple_pager/per_page'
 require 'active_record'
 module SimplePager
   def self.included(base)
-    base.extend(ClassMethods)
+    base.extend(ActiveRecord)
   end
   # = Simple Paginating for ActiveRecord models
   # 
@@ -10,17 +11,57 @@ module SimplePager
   #
   #   @posts = Post.pager(:page => params[:page]).order('created_at DESC')
   #   @posts = Post.pager(:page => params[:page], :per_page => 15).order('created_at DESC')
-  module ClassMethods
-    def pager(pp={})
-      if pp[:per_page] 
-        self.per_page = pp[:per_page]
-      elsif !self.respond_to?(:per_page) or !self.per_page
-        self.per_page = 30
+  module ActiveRecord
+    module RelationMethods
+      def per_page(value = nil)
+        if value.nil? then limit_value
+        else limit(value)
+        end
       end
-      limit(self.per_page).
-      offset(pp[:page].blank? ? 0 : ((pp[:page].to_i-1)*(pp[:per_page] || (self.respond_to?(:per_page) ? self.per_page : 30)))) 
+    end  
+    
+    module SimplePagination
+      def pager(options)
+        
+        options  = options.dup
+        pagenum  = options.fetch(:page) { raise ArgumentError, ":page parameter required" }
+        options.delete(:page)
+        per_page = options.delete(:per_page) || self.per_page
+        
+        limit(per_page.to_i).
+        offset(pagenum.blank? ? 0 : ((pagenum.to_i-1)*(per_page))) 
+      end
+      def paginate(options)
+        options  = options.dup
+        pagenum  = options.fetch(:page) { raise ArgumentError, ":page parameter required" }
+        options.delete(:page)
+        per_page = options.delete(:per_page) || self.per_page
+        total    = options.delete(:total_entries)
+
+        if options.any?
+          raise ArgumentError, "unsupported parameters: %p" % options.keys
+        end
+
+        rel = limit(per_page.to_i).page(pagenum)
+        rel.total_entries = total.to_i          unless total.blank?
+        rel
+      end
     end
-  end  
+    
+    # mix everything into Active Record
+    ::ActiveRecord::Base.extend PerPage
+    ::ActiveRecord::Base.extend SimplePagination
+    
+    klasses = [::ActiveRecord::Relation]
+    if defined? ::ActiveRecord::Associations::CollectionProxy
+      klasses << ::ActiveRecord::Associations::CollectionProxy
+    else
+      klasses << ::ActiveRecord::Associations::AssociationCollection
+    end
+
+    # support pagination on associations and scopes
+    klasses.each { |klass| klass.send(:include, SimplePagination) }
+  end
 end
 
 module SimplePagerHelper

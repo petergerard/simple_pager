@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name        = 'simple_pager'
-  s.version     = '0.0.2'
-  s.date        = '2013-03-26'
-  s.summary     = "Super simple pagination for Rails 3"
-  s.description = "Super lightweight and simple Rails 3 pagination for when you don't need to count the number of items or pages. simple_pager shows Previous and More links."
+  s.version     = '0.1.0'
+  s.date        = '2020-02-03'
+  s.summary     = "Super simple pagination for Rails 6 (maybe 3,4,5?)"
+  s.description = "Super lightweight and simple Rails pagination for when you don't need to count the number of items or pages. simple_pager shows Previous and More links."
   s.authors     = ["Peter Gerard"]
   #s.email       = ''
-  s.files       = ["lib/simple_pager.rb"]
+  s.files       = ['README*','LICENSE*','{lib}/**/*']
   s.homepage    =
-    'https://github.com/accidental/simple_pager'
+    'https://github.com/petergerard/simple_pager'
 end
