@@ -12,15 +12,26 @@ module SimplePager
       pprev = ''
       pnext = ''
       prefix = ''
+      # find request path:
+      path = request.fullpath.split('?').first
       if params[:page] and params[:page].to_i > 1
         if collection.empty?
           prefix = content_tag(:p,"There are no more.")
         end
         prevnum = (params[:page].to_i - 1)
-        pprev = content_tag(:li, link_to( "&larr; #{prev_name}".html_safe, request.query_parameters.merge({:page => (prevnum == 1 ? nil : prevnum)}) ),:class => 'previous')
+        # remove page instead of set nil
+        if prevnum == 1
+          qparams = request.query_parameters.dup
+          qparams.delete(:page)
+          query = qparams.to_query
+        else
+          query = request.query_parameters.merge({:page => prevnum}).to_query
+        end
+        pprev = content_tag(:li, link_to( "&larr; #{prev_name}".html_safe, path + '?' + query ), :class => 'previous')
       end
       if !@no_more_pages and collection.size >= per_page
-        pnext = content_tag(:li, link_to( "#{next_name} &rarr;".html_safe, request.query_parameters.merge({:page => (params[:page] ? params[:page].to_i + 1 : 2)}) ),:class => 'next')
+        query = request.query_parameters.merge({:page => (!params[:page].blank? ? params[:page].to_i + 1 : 2)}).to_query
+        pnext = content_tag(:li, link_to( "#{next_name} &rarr;".html_safe, path + '?' + query ), :class => 'next')
       end
       (prefix + content_tag(:ul, (pprev+pnext).html_safe, :class => 'pager')).html_safe
     end
@@ -30,4 +41,5 @@ module SimplePager
 
     ::ActionView::Base.send :include, self
   end
+
 end
